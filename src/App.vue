@@ -36,31 +36,31 @@ export default {
   },
   methods: {
     ...mapActions(["fetchPosts", "getPostsLength"]),
-    async clickPrevious() {
-      await this.fetchPosts({
+    clickPrevious() {
+      this.fetchPosts({
         start: (this.currentPage -= 10),
         end: (this.pageLimit -= 10),
       });
     },
-    async clickNext() {
-      await this.fetchPosts({
+    clickNext() {
+      this.fetchPosts({
         start: (this.currentPage += 10),
         end: (this.pageLimit += 10),
       });
     },
-    async changePage(index) {
-      await this.fetchPosts({
+    changePage(index) {
+      this.fetchPosts({
         start: (this.currentPage = index * 10),
         end: (this.pageLimit = index * 10 + 10),
       });
     },
   },
-  async mounted() {
-    await this.fetchPosts({
+  mounted() {
+    this.fetchPosts({
       start: this.currentPage,
       end: this.pageLimit,
     });
-    await this.getPostsLength();
+    this.getPostsLength();
   },
 };
 </script>
