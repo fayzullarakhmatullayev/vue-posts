@@ -6,12 +6,12 @@
         <posts v-for="post in currentPost" :key="post.id" :post="post" />
       </div>
       <pagination
-        @paginate="paginate"
         :totlaPosts="posts.length"
         :postPerPage="postPerPage"
         :currentPage="currentPage"
-        @prev="prev"
-        @next="next"
+        @prev="this.currentPage--"
+        @next="this.currentPage++"
+        @paginate="paginate"
       />
     </div>
   </div>
@@ -47,12 +47,6 @@ export default {
     ...mapActions(["fetchPosts"]),
     paginate(number) {
       this.currentPage = number;
-    },
-    prev() {
-      this.currentPage--;
-    },
-    next() {
-      this.currentPage++;
     },
   },
   mounted() {
