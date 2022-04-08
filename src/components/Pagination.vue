@@ -3,7 +3,7 @@
     <ul class="pagination">
       <li
         class="page-item"
-        v-for="number in pageNumbers"
+        v-for="number in getPageNumner"
         :key="number"
         :class="{ active: number === currentPage }"
       >
@@ -26,10 +26,13 @@ export default {
       pageNumbers: [],
     };
   },
-  mounted() {
-    for (let i = 1; i <= Math.ceil(this.totlaPosts / this.postPerPage); i++) {
-      this.pageNumbers.push(i);
-    }
+  computed: {
+    getPageNumner() {
+      for (let i = 1; i <= Math.ceil(this.totlaPosts / this.postPerPage); i++) {
+        this.pageNumbers.push(i);
+      }
+      return this.pageNumbers;
+    },
   },
 };
 </script>
