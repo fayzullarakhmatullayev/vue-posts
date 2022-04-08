@@ -3,15 +3,13 @@
     <h1 class="my-4 text-center">JSON Placeholder Posts</h1>
     <div class="wrapper">
       <div class="posts-wrapper">
-        <posts v-for="post in posts" :key="post.id" :post="post" />
+        <posts v-for="post in currentPost" :key="post.id" :post="post" />
       </div>
       <pagination
-        :postsLength="postLength"
+        @paginate="paginate"
+        :totlaPosts="posts.length"
+        :postPerPage="postPerPage"
         :currentPage="currentPage"
-        :pageLimit="pageLimit"
-        @clickPrevious="clickPrevious"
-        @clickNext="clickNext"
-        @changePage="changePage"
       />
     </div>
   </div>
@@ -27,40 +25,30 @@ export default {
   components: { Posts, Pagination },
   data() {
     return {
-      currentPage: 0,
-      pageLimit: 10,
+      currentPage: 1,
+      postPerPage: 10,
     };
   },
   computed: {
-    ...mapGetters(["posts", "postLength"]),
+    ...mapGetters(["posts"]),
+    indexOfLastPost() {
+      return this.currentPage * this.postPerPage;
+    },
+    indexOfFirstPost() {
+      return this.indexOfLastPost - this.postPerPage;
+    },
+    currentPost() {
+      return this.posts.slice(this.indexOfFirstPost, this.indexOfLastPost);
+    },
   },
   methods: {
-    ...mapActions(["fetchPosts", "getPostsLength"]),
-    clickPrevious() {
-      this.fetchPosts({
-        start: (this.currentPage -= 10),
-        end: (this.pageLimit -= 10),
-      });
-    },
-    clickNext() {
-      this.fetchPosts({
-        start: (this.currentPage += 10),
-        end: (this.pageLimit += 10),
-      });
-    },
-    changePage(index) {
-      this.fetchPosts({
-        start: (this.currentPage = index * 10),
-        end: (this.pageLimit = index * 10 + 10),
-      });
+    ...mapActions(["fetchPosts"]),
+    paginate(number) {
+      this.currentPage = number;
     },
   },
   mounted() {
-    this.fetchPosts({
-      start: this.currentPage,
-      end: this.pageLimit,
-    });
-    this.getPostsLength();
+    this.fetchPosts();
   },
 };
 </script>

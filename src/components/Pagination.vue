@@ -1,27 +1,17 @@
 <template>
   <nav aria-label="Page navigation example">
     <ul class="pagination">
-      <li class="page-item" :class="{ disabled: currentPage <= 0 }">
-        <a class="page-link" href="#" @click.prevent="$emit('clickPrevious')"
-          >Previous</a
-        >
-      </li>
       <li
         class="page-item"
-        v-for="(post, index) in postsLength / 10"
-        :key="post"
-        :class="{ active: currentPage === index * 10 }"
+        v-for="number in pageNumbers"
+        :key="number"
+        :class="{ active: number === currentPage }"
       >
         <a
           class="page-link"
           href="#"
-          @click.prevent="$emit('changePage', index)"
-          >{{ index + 1 }}</a
-        >
-      </li>
-      <li class="page-item" :class="{ disabled: postsLength === pageLimit }">
-        <a class="page-link" href="#" @click.prevent="$emit('clickNext')"
-          >Next</a
+          @click.prevent="$emit('paginate', number)"
+          >{{ number }}</a
         >
       </li>
     </ul>
@@ -30,18 +20,17 @@
 
 <script>
 export default {
-  props: {
-    postsLength: {
-      type: Number,
-    },
-    currentPage: {
-      type: Number,
-    },
-    pageLimit: {
-      type: Number,
-    },
+  props: ["totlaPosts", "postPerPage", "currentPage"],
+  data() {
+    return {
+      pageNumbers: [],
+    };
   },
-  emits: ["clickPrevious", "clickNext", "changePage"],
+  mounted() {
+    for (let i = 1; i <= Math.ceil(this.totlaPosts / this.postPerPage); i++) {
+      this.pageNumbers.push(i);
+    }
+  },
 };
 </script>
 
