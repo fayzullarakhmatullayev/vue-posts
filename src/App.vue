@@ -10,6 +10,8 @@
         :totlaPosts="posts.length"
         :postPerPage="postPerPage"
         :currentPage="currentPage"
+        @prev="prev"
+        @next="next"
       />
     </div>
   </div>
@@ -45,6 +47,12 @@ export default {
     ...mapActions(["fetchPosts"]),
     paginate(number) {
       this.currentPage = number;
+    },
+    prev() {
+      this.currentPage--;
+    },
+    next() {
+      this.currentPage++;
     },
   },
   mounted() {
