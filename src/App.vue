@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Pagination from "./components/Pagination.vue";
 import Posts from "./components/Posts.vue";
 
@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     ...mapActions(["fetchPosts"]),
-    ...mapMutations(["SET_HEADERS_LINK"]),
     prev() {
       if (this.prevPage > 0) {
         this.currentPage = this.prevPage;
