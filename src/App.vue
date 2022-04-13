@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      postPerPage: 10,
+      postPerPage: 5,
     };
   },
   computed: {
